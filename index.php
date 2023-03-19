@@ -1,30 +1,3 @@
-<?php
-  session_start();
-if (isset($_POST['submit'])) {
-$userName = $_POST['username'];
-$pass = $_POST['password'];
-$connect = @mysqli_connect("localhost","root","","pfe");
-$req = "select * from utilisateur where nom='$userName' And mdp='$pass'";
-$send = @mysqli_query($connect,$req);
-$res = @mysqli_fetch_array($send);
-
-if($res == true) {
-  $_SESSION['username'] = $userName;
-  $_SESSION['id_uti'] = $res['id_uti'];
-  if ($res['isAdmin'] == "1") {
-    $_SESSION['success'] = "Connectée avec succès, bienvenue à nouveau";
-    header("refresh: 3;URL=admin_index.php");
-  }
-  if ($res['isAdmin'] == '0') {
-    $_SESSION['success'] = "Connecté avec succès, bienvenue à nouveau";
-    header("refresh: 3;URL=cashier.html");
-  }
-} else {
-  $_SESSION['error'] = "La connexion a échoué, essayez de vérifier vos informations !";
-  header("refresh: 3;URL=index.php");
-}
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +5,7 @@ if($res == true) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Login - NiceAdmin Bootstrap Template</title>
+  <title>Connectez Vous - LoungeWhiz</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -84,29 +57,16 @@ if($res == true) {
                   </div>
 
                   <form class="row g-3 needs-validation" method="post" action="">
-                    <div>
-                    <?php 
-              if(isset($_SESSION['error'])) {
-              ?>
-              <div class="alert alert-danger" role="alert">
-                <?php 
-                  echo $_SESSION['error'];
-                ?>
+                    <!-- wrong info -->
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" id="wrong" style="display:none">
+                  Veuillez vérifier votre information !
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <?php unset($_SESSION['error']); }
-                elseif(isset($_SESSION['success'])) {
-              ?>
-                <div class="alert alert-success" role="alert">
-                  <?php 
-                    echo $_SESSION['success'];
-                  ?>
+                <!-- right info -->
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="right" style="display:none">
+                  Connectée avec succée ! bienvenue à nouveau 
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-              <?php 
-                  unset($_SESSION['success']);
-                }
-              ?>
-                    </div>
-
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Nom d'utilisateur</label>
                       <div class="input-group has-validation">
@@ -120,7 +80,7 @@ if($res == true) {
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit" name="submit">Login</button>
+                      <button class="btn btn-primary w-100" type="submit" onclick="login(event)" name="submit">Login</button>
                     </div>
                   </form>
 
@@ -154,6 +114,7 @@ if($res == true) {
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/ajaxwork.js"></script>
 
 </body>
 
