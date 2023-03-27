@@ -76,14 +76,16 @@ include_once('assets/php/db_connect.php')
       <!-- Start Categorie Pills -->
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Home</button>
+          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Tous</button>
         </li>
+        <?php 
+        $req01 = "SELECT * FROM `categorie`";
+        $envoi01 = @mysqli_query($connect,$req01);
+        while ($res01 = @mysqli_fetch_array($envoi01)) { ?>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</button>
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#<?php echo $res01['nom_cat'] ?>" type="button" role="tab" aria-controls="pills-profile" aria-selected="false"><?php echo $res01['nom_cat'] ?></button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
-        </li>
+        <?php } ?>
       </ul>
       <!-- End Categorie pills -->
     </div>
@@ -92,62 +94,59 @@ include_once('assets/php/db_connect.php')
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="home-tab">
           <!-- The Row that hold the products -->
           <div class="row">
+          <?php 
+          $req02 = "SELECT * FROM `produit`";
+          $envoi02 = @mysqli_query($connect,$req02);
+          while ($res02 = @mysqli_fetch_array($envoi02)) { ?>
             <div class="col-lg-3">
-              <div class="card">
-                <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+              <div class="card" style="width: 235px; height: 200px;">
+                <img src="<?php if(!($res02['photo'] == "")) {
+                  echo "assets/img/products/" . $res02['photo'];
+                } else {
+                  echo "assets/img/card.jpg";
+                } ?>" class="card-img-top" alt="..." style="width: 235px; height: 200px;">
                   <div class="card-img-overlay">
-                    <h5 class="card-title">Card with an image overlay</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title"><?php echo $res02['nom_p'] ?></h5>
+                    <p class="card-text"><b><?php echo $res02['prix'] ?> Dt.</b></p>
+                    <a class="btn btn-primary ziid" href="addticket.php?id=<?php echo $res02['id_p'] ?>" id-prod="<?php echo $res02['id_p'] ?>" onclick="addToCart(event)">Commander</a>
                   </div>
               </div>
             </div>
-            <div class="col-lg-3">
-              <div class="card">
-                <img src="assets/img/card.jpg" class="card-img-top" alt="...">
+          <?php } ?>
+          </div>
+        </div>
+        <?php
+        $req03 = "SELECT * FROM `categorie`";
+        $envoi03 = @mysqli_query($connect,$req03);
+        while ($res03 = @mysqli_fetch_array($envoi03)) { ?>
+          <div class="tab-pane fade" id="<?php echo $res03['nom_cat'] ?>" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="row">
+              <?php
+              $temp = $res03['nom_cat'];
+              $req04 = "SELECT * FROM `produit` WHERE `nom_cat` ='$temp'";
+              $envoi04 = @mysqli_query($connect,$req04);
+              while ($res04 = @mysqli_fetch_array($envoi04)) { ?>
+                <div class="col-lg-3">
+                <div class="card" style="width: 235px; height: 200px;">
+                <img src="<?php if(!($res04['photo'] == "")) {
+                  echo "assets/img/products/" . $res04['photo'];
+                } else {
+                  echo "assets/img/card.jpg";
+                } ?>" class="card-img-top" alt="..." style="width: 235px; height: 200px;">
                   <div class="card-img-overlay">
-                    <h5 class="card-title">Card with an image overlay</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <h5 class="card-title"><?php echo $res04['nom_p'] ?> </h5>
+                    <p class="card-text"><b><?php echo $res04['prix'] ?> Dt.</b></p>
+                    <a class="btn btn-primary ziid" href="addticket.php?id=<?php echo $res04['id_p'] ?>" id-prod="<?php echo $res04['id_p'] ?>" onclick="addToCart(event)">Ajout</a>
                   </div>
+                </div>
               </div>
-            </div>
-            <div class="col-lg-3">
-              <div class="card">
-                <img src="assets/img/card.jpg" class="card-img-top" alt="...">
-                  <div class="card-img-overlay">
-                    <h5 class="card-title">Card with an image overlay</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  </div>
-              </div>
-            </div>
-            <div class="col-lg-3">
-              <div class="card">
-                <img src="assets/img/card.jpg" class="card-img-top" alt="...">
-                  <div class="card-img-overlay">
-                    <h5 class="card-title">Card with an image overlay</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  </div>
-              </div>
-            </div>
-            <div class="col-lg-3">
-              <div class="card">
-                <img src="assets/img/card.jpg" class="card-img-top" alt="...">
-                  <div class="card-img-overlay">
-                    <h5 class="card-title">Card with an image overlay</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  </div>
-              </div>
+              <?php unset($temp); } ?>
             </div>
           </div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="profile-tab">
-          
-        </div>
-        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="contact-tab">
-          
-        </div>
+        <?php } ?>
       </div>
     </div>
   </div>
-</div>
 <!-- end products Side -->
 
 <!-- Start Ticket Side -->
@@ -155,39 +154,27 @@ include_once('assets/php/db_connect.php')
     <div class="card" style="height: 90vh">
       <div class="card-header">
         <div class="row">
-          <div class="col-lg-6">Nom de produit</div>
+          <div class="col-lg-5">Nom de produit</div>
           <div class="col-lg-2">Prix</div>
           <div class="col-lg-3">Quantité</div>
           <div class="col-lg-1"></div>
         </div>
       </div>
       <div class="card-body">
-        <div id="scroll">
+        <div id="scrolls">
+          <div class="col-lg-12 pt-3"><h4>Order Number : </h4></div>
           <!-- Start command line -->
-          <div class="row pt-3">
-            <div class="col-lg-6">Nom de produit</div>
-            <div class="col-lg-2">Prix</div>
-            <div class="col-lg-3">              
-              <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="height: 30px;">
-                <button type="button" class="btn btn-danger">-</button>
-                <button type="button" class="btn">10</button>
-                <button type="button" class="btn btn-success">+</button>
-              </div>
-            </div>
-            <div class="col-lg-1"><i class="ri-delete-bin-2-fill" style='color: red;font-size:x-large;'></i></div>
-          </div>
           <!-- End command line -->
-        </div>
       </div>
       <div class="card-footer">
           <div class="d-grid gap-2 mt-3">
           <h2>Total : 100Dt</h2>
         </div>
         <div class="d-grid gap-2 mt-3">
-          <button class="btn btn-success" type="button"><i class="bi bi-cart-plus"></i>   Commander</button>
+          <a class="btn btn-success" type="button" href="test.php"><i class="bi bi-cart-plus"></i>   Commander</a>
         </div>
         <div class="d-grid gap-2 mt-3">
-          <button class="btn btn-primary" type="button"><i class="bi bi-cash-stack"></i>     Payer</button>
+          <a class="btn btn-primary" type="button" href="test.php"><i class="bi bi-cash-stack"></i>     Payer</a>
         </div>
       </div>
     </div>
@@ -211,6 +198,7 @@ include_once('assets/php/db_connect.php')
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/ajaxwork.js"></script>
 
 </body>
 
