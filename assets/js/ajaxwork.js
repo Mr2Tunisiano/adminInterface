@@ -53,10 +53,19 @@ nomProdCol.classList.add("col-lg-5");
 nomProdCol.textContent = response2.nom;
 row.appendChild(nomProdCol);
 // create the second column for the total price
+let totalPriceHolder = document.createElement("div");
+totalPriceHolder.classList.add("col-lg-2");
 let totalPriceCol = document.createElement("div");
-totalPriceCol.classList.add("col-lg-2");
 totalPriceCol.textContent = response2.prix;
-row.appendChild(totalPriceCol);
+totalPriceCol.setAttribute("total_id",response2.id)
+totalPriceCol.setAttribute("total",response2.prix)
+totalPriceCol.style.display = 'inline-block'
+let dt = document.createElement('b')
+dt.innerText = "Dt."
+dt.style.display = 'inline-block'
+totalPriceHolder.appendChild(totalPriceCol)
+totalPriceHolder.appendChild(dt)
+row.appendChild(totalPriceHolder);
 // create the third column for the quantity selector
 let quantityCol = document.createElement("div");
 quantityCol.classList.add("col-lg-3");
@@ -78,6 +87,15 @@ decreaseBtn.onclick = () => {
     row.setAttribute("qte",updateQte)
   }
   totalPriceCol.textContent = parseInt(sum.innerText)*response2.prix
+  let updateTotal = totalPriceCol.textContent
+  totalPriceCol.setAttribute('total',updateTotal)
+  let finalTotalFetch = document.querySelectorAll('[total]')
+let totalShow = document.getElementById('total')
+let allprices = 0
+for (let i = 0; i < finalTotalFetch.length; i++) {
+  allprices += parseInt(finalTotalFetch[i].innerText) 
+}
+totalShow.innerText = allprices
 }
 btnGroup.appendChild(decreaseBtn);
 // create the quantity button
@@ -93,8 +111,17 @@ increaseBtn.onclick = () => {
   let sum = document.querySelector(`[qte_id="${response2.id}"]`)
   sum.innerText = parseInt(sum.innerText)+1 
   totalPriceCol.textContent = parseInt(sum.innerText)*response2.prix
+  let updateTotal = totalPriceCol.textContent
+  totalPriceCol.setAttribute('total',updateTotal)
   let updateQte = sum.innerText
   row.setAttribute("qte",updateQte)
+  let finalTotalFetch = document.querySelectorAll('[total]')
+let totalShow = document.getElementById('total')
+let allprices = 0
+for (let i = 0; i < finalTotalFetch.length; i++) {
+  allprices += parseInt(finalTotalFetch[i].innerText) 
+}
+totalShow.innerText = allprices
 }
 increaseBtn.textContent = "+";
 btnGroup.appendChild(increaseBtn);
@@ -119,17 +146,27 @@ row.appendChild(deleteCol);
 //The check if product already exists in bail or not
 let mydiv = document.querySelector(`.dynamic-div[prod-id='${response2.id}']`)
 if (mydiv) {
+  let totalLine = document.querySelector(`[total_id="${response2.id}"]`)
   let sum = document.querySelector(`[qte_id="${response2.id}"]`)
   sum.innerText = parseInt(sum.innerText)+1
   let updateQte = sum.innerText
-  console.log("error here")
   mydiv.setAttribute("qte",updateQte)
+  totalLine.innerText = updateQte*response2.prix
+  let updateTotal = totalLine.innerText
+  totalLine.setAttribute("total",updateTotal)
 } else {
   scroll.appendChild(row);
   let sum = document.querySelector(`[qte_id="${response2.id}"]`)
   let updateQte = sum.innerText
   row.setAttribute("qte",updateQte)
 }
+let finalTotalFetch = document.querySelectorAll('[total]')
+let totalShow = document.getElementById('total')
+let allprices = 0
+for (let i = 0; i < finalTotalFetch.length; i++) {
+  allprices += parseInt(finalTotalFetch[i].innerText) 
+}
+totalShow.innerText = allprices
 //Delete button work
 let deleteThis = document.querySelector(`[id_prod="${response2.id}"]`)
 deleteThis.onclick = () => {
@@ -139,4 +176,39 @@ deleteThis.parentElement.parentElement.remove()
 }
   req2.open("GET", `assets/php/addticket.php?id=${id}`, true);
   req2.send();
+}
+
+function Commander(event) {
+  event.preventDefault()
+  let dynamicDiv = document.querySelectorAll('.dynamic-div')
+  let myObj = []
+  for (let i = 0; i < dynamicDiv.length; i++) {
+    let id = dynamicDiv[i].getAttribute("prod-id")
+    let qte = dynamicDiv[i].getAttribute("qte")
+    myObj[i] = {
+      id_p : id,
+      qte_p : qte
+    }
+  }
+  let SendObj = JSON.stringify(myObj)
+  let paid = 0
+  let user = document.getElementById('user').innerText
+  let count = document.getElementById('count').innerText
+  let total = document.getElementById('total').innerText
+
+  if (SendObj != '[]') {
+  console.log(SendObj)
+  console.log(paid)
+  console.log(user)
+  console.log(count)
+  console.log(total)
+  let req3 = new XMLHttpRequest()
+  req3.onreadystatechange = () => {
+    if(this.status === 200 && this.readyState === 4) {
+      
+    }
+  }
+  req3.open("GET", `assets/php/commander.php?prods=${SendObj}&paid=${paid}&user=${user}&count=${count}&total=${total}`, true);
+  req3.send();
+  }
 }

@@ -1,5 +1,10 @@
 <?php 
-include_once('assets/php/db_connect.php')
+include_once('assets/php/db_connect.php');
+$req2 = 'Select * from commandes';
+$send2 = @mysqli_query($connect,$req2);
+while ($row = mysqli_fetch_array($send2)) {
+    $count = $row['id_c'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +54,7 @@ include_once('assets/php/db_connect.php')
         </a><!-- End Profile Iamge Icon -->
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
-            <h6><?php echo $res['nom'] ?></h6>
+            <h6 id="user"><?php echo $res['nom'] ?></h6>
             <span><?php echo $res['nom'] ?></span> <!--change to profile position -->
           </li>
           <li>
@@ -162,16 +167,16 @@ include_once('assets/php/db_connect.php')
       </div>
       <div class="card-body">
         <div id="scrolls">
-          <div class="col-lg-12 pt-3"><h4>Order Number : </h4></div>
+          <div class="col-lg-12 pt-3"><h4>Commande Numéro : <span id="count"><?php echo $count+1 ?></span></h4></div>
           <!-- Start command line -->
           <!-- End command line -->
       </div>
       <div class="card-footer">
           <div class="d-grid gap-2 mt-3">
-          <h2>Total : 100Dt</h2>
+          <h2>Total : <span id="total">100</span>Dt</h2>
         </div>
         <div class="d-grid gap-2 mt-3">
-          <a class="btn btn-success" type="button" href="test.php"><i class="bi bi-cart-plus"></i>   Commander</a>
+          <a class="btn btn-success" type="button" onclick="Commander(event)"><i class="bi bi-cart-plus"></i>   Commander</a>
         </div>
         <div class="d-grid gap-2 mt-3">
           <a class="btn btn-primary" type="button" href="test.php"><i class="bi bi-cash-stack"></i>     Payer</a>

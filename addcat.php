@@ -36,10 +36,11 @@ include_once('assets/php/db_connect.php')
 <?php
 include('assets/php/header.php');
 include('assets/php/side.php');
-$req2 = 'Select COUNT(*) as count from categorie';
+$req2 = 'Select * from categorie';
 $send2 = @mysqli_query($connect,$req2);
-$row = mysqli_fetch_assoc($send2);
-$count = $row['count'];
+while ($row = mysqli_fetch_array($send2)) {
+    $count = $row['id_cat'];
+}
 ?>
 <main id="main" class="main">
 <div class="pagetitle">
