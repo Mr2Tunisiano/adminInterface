@@ -18,7 +18,7 @@ function login(event) {
       } else if (response.success == "yes" && response.isAdmin == "no") {
         success.style.display = "";
         setTimeout(() => {
-          location.href = 'http://localhost/adminInterface/cashier_index.php'
+          location.href = 'http://localhost/adminInterface/pos.php'
         }, 1500);
       } else {
         fail.style.display = "";
@@ -170,7 +170,14 @@ totalShow.innerText = allprices
 //Delete button work
 let deleteThis = document.querySelector(`[id_prod="${response2.id}"]`)
 deleteThis.onclick = () => {
-deleteThis.parentElement.parentElement.remove()
+  deleteThis.parentElement.parentElement.remove()
+  let finalTotalFetch = document.querySelectorAll('[total]')
+  let totalShow = document.getElementById('total')
+  let allprices = 0
+  for (let i = 0; i < finalTotalFetch.length; i++) {
+    allprices += parseInt(finalTotalFetch[i].innerText) 
+  }
+  totalShow.innerText = allprices
 }
   }
 }
@@ -189,6 +196,7 @@ function Commander(event) {
       id_p : id,
       qte_p : qte
     }
+    dynamicDiv[i].remove()
   }
   let SendObj = JSON.stringify(myObj)
   let paid = 0
@@ -197,18 +205,54 @@ function Commander(event) {
   let total = document.getElementById('total').innerText
 
   if (SendObj != '[]') {
-  console.log(SendObj)
-  console.log(paid)
-  console.log(user)
-  console.log(count)
-  console.log(total)
   let req3 = new XMLHttpRequest()
-  req3.onreadystatechange = () => {
-    if(this.status === 200 && this.readyState === 4) {
-      
-    }
-  }
-  req3.open("GET", `assets/php/commander.php?prods=${SendObj}&paid=${paid}&user=${user}&count=${count}&total=${total}`, true);
+  let action = "commande"
+  req3.open("GET", `assets/php/commander.php?prods=${SendObj}&paid=${paid}&user=${user}&count=${count}&total=${total}&action=${action}`, true);
   req3.send();
+  location.reload()
+  }
+}
+
+function Payer(event) {
+  event.preventDefault()
+  let myObj = []
+  let SendObj = JSON.stringify(myObj)
+  let paid = 0
+  let user = document.getElementById('user').innerText
+  let count = event.target.getAttribute('id-c')
+  let total = document.getElementById('total').innerText
+  let action = "pay"
+  let req4 = new XMLHttpRequest()
+  req4.open("GET", `assets/php/commander.php?prods=${SendObj}&paid=${paid}&user=${user}&count=${count}&total=${total}&action=${action}`, true);
+  req4.send();
+  console.log(`Ajax sends request all good ${count}`)
+  location.reload()
+}
+
+function CommanderPayer(event) {
+  event.preventDefault()
+  let dynamicDiv = document.querySelectorAll('.dynamic-div')
+  let myObj = []
+  for (let i = 0; i < dynamicDiv.length; i++) {
+    let id = dynamicDiv[i].getAttribute("prod-id")
+    let qte = dynamicDiv[i].getAttribute("qte")
+    myObj[i] = {
+      id_p : id,
+      qte_p : qte
+    }
+    dynamicDiv[i].remove()
+  }
+  let SendObj = JSON.stringify(myObj)
+  let paid = 0
+  let user = document.getElementById('user').innerText
+  let count = document.getElementById('count').innerText
+  let total = document.getElementById('total').innerText
+
+  if (SendObj != '[]') {
+  let req5 = new XMLHttpRequest()
+  let action = "pay"
+  req5.open("GET", `assets/php/commander.php?prods=${SendObj}&paid=${paid}&user=${user}&count=${count}&total=${total}&action=${action}`, true);
+  req5.send();
+  location.reload()
   }
 }

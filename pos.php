@@ -1,10 +1,13 @@
-<?php 
+<?php
 include_once('assets/php/db_connect.php');
 $req2 = 'Select * from commandes';
 $send2 = @mysqli_query($connect,$req2);
 while ($row = mysqli_fetch_array($send2)) {
     $count = $row['id_c'];
 }
+if (!is_numeric($count)) {
+  $count = 0;
+};
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +46,7 @@ while ($row = mysqli_fetch_array($send2)) {
     <img src="assets/img/logo.png" alt="">
   </div><!-- End Logo -->
   <div class="d-flex align-items-center justify-content-between" style="margin-left: 100px">
-    <button type="button" class="btn btn-info">Voir les commandes ouvertes</button>
+    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#opentables">Voir les commandes ouvertes</button>
   </div>
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
@@ -55,7 +58,15 @@ while ($row = mysqli_fetch_array($send2)) {
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
             <h6 id="user"><?php echo $res['nom'] ?></h6>
-            <span><?php echo $res['nom'] ?></span> <!--change to profile position -->
+            <span>
+              <?php 
+              if($res['isAdmin'] == 0) {
+                echo "Serveur";
+              } else {
+                echo "Admin";
+              };
+              ?>
+          </span> <!--change to profile position -->
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -78,6 +89,30 @@ while ($row = mysqli_fetch_array($send2)) {
 <!-- Start Products Side -->
   <div class="col-lg-8">
     <div class="col-lg-12">
+      <?php 
+      if(isset($_SESSION['CommandS'])) { ?> 
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Le Commande Numéro <?php echo $_SESSION['CommandS'] ?> a été enregistée avec succée !
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php } unset($_SESSION['CommandS']);
+      ?>
+      <?php 
+      if(isset($_SESSION['payS'])) { ?> 
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Le Commande Numéro <?php echo $_SESSION['payS'] ?> a été facturer avec success !
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php } unset($_SESSION['payS']);
+      ?>
+      <?php
+      if(isset($_SESSION['CommandePay'])) { ?> 
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Le Commande Numéro <?php echo $_SESSION['CommandePay'] ?> a été enregistrée et facturer avec succee !
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      <?php } unset($_SESSION['CommandePay']);
+      ?>
       <!-- Start Categorie Pills -->
       <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -173,13 +208,13 @@ while ($row = mysqli_fetch_array($send2)) {
       </div>
       <div class="card-footer">
           <div class="d-grid gap-2 mt-3">
-          <h2>Total : <span id="total">100</span>Dt</h2>
+          <h2>Total : <span id="total"></span> Dt</h2>
         </div>
         <div class="d-grid gap-2 mt-3">
-          <a class="btn btn-success" type="button" onclick="Commander(event)"><i class="bi bi-cart-plus"></i>   Commander</a>
+          <a class="btn btn-primary" type="button" onclick="Commander(event)"><i class="bi bi-cart-plus"></i>   Commander</a>
         </div>
         <div class="d-grid gap-2 mt-3">
-          <a class="btn btn-primary" type="button" href="test.php"><i class="bi bi-cash-stack"></i>     Payer</a>
+          <a class="btn btn-success" type="button" onclick="CommanderPayer(event)"><i class="bi bi-cash-stack"></i>     Payer</a>
         </div>
       </div>
     </div>
@@ -188,6 +223,57 @@ while ($row = mysqli_fetch_array($send2)) {
 </div>
 </section>
 </main>
+<div class="modal fade" id="opentables" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Les Commandes Ouvertes</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <?php 
+            $req11 = "SELECT * FROM `commandes` WHERE `isPaid` = 0;";
+            $query11 = @mysqli_query($connect,$req11);
+            $nom = $res['nom'];
+            $req22 = "SELECT * FROM `commandes` WHERE `isPaid` = 0 AND `serveur` = '$nom'";
+            $query22 = @mysqli_query($connect,$req22);
+            if ($res['isAdmin'] == 1) {
+              while ($res11 = @mysqli_fetch_array($query11)) { ?>
+            <div class="col-lg-3">
+              <div class="card">
+                <img src="assets/img/table3.jpg" class="card-img-top" alt="..." height="210" width="220">
+                <div class="card-img-overlay">
+                  <h5 class="card-title">Commande Numéro: <?php echo $res11['id_c'] ?></h5>
+                  <p class="card-text">Total : <?php echo $res11['total'] ?></p>
+                  <p class="card-text">Serveur : <?php echo $res11['serveur'] ?></p>
+                  <a type="button" class="btn btn-success" id-c="<?php echo $res11['id_c'] ?>" onclick="Payer(event)"><i class="bi bi-cash-stack"></i>      Payer</a>
+                </div>
+              </div>
+            </div>
+            <?php };
+            } else { 
+              while ($res22 = @mysqli_fetch_array($query22)) { ?>
+            <div class="col-lg-3">
+              <div class="card">
+                <img src="assets/img/table3.jpg" class="card-img-top" alt="..." height="210" width="220">
+                <div class="card-img-overlay">
+                  <h5 class="card-title">Commande Numéro: <?php echo $res22['id_c'] ?></h5>
+                  <p class="card-text">Total : <?php echo $res22['total'] ?></p>
+                  <p class="card-text">Serveur : <?php echo $res22['serveur'] ?></p>
+                  <a type="button" class="btn btn-success" id-c="<?php echo $res22['id_c'] ?>" onclick="Payer(event)"><i class="bi bi-cash-stack"></i>      Payer</a>
+                </div>
+              </div>
+            </div>
+            <?php }; } ?>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
