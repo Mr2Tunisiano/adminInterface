@@ -12,7 +12,7 @@
 
       <li class="nav-item">
   <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-    <i class="bi bi-menu-button-wide"></i><span>Catégorie</span><i class="bi bi-chevron-down ms-auto"></i>
+    <i class="bx bxs-category-alt"></i><span>Catégorie</span><i class="bi bi-chevron-down ms-auto"></i>
   </a>
   <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
     <li>
@@ -64,8 +64,37 @@
   </ul>
 </li><!-- Utilisateur Nav -->
 
+<li class="nav-item">
+  <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
+    <i class="bx bxs-wallet"></i><span>Ventes</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+  <ul id="components-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+    <li>
+      <a href="salesP.php">
+        <i class="bi bi-circle"></i><span>Voir Ventes Par Produit</span>
+      </a>
+    </li>
+    <li>
+      <a href="salesC.php">
+        <i class="bi bi-circle"></i><span>Voir Ventes Par Catégorie</span>
+      </a>
+    </li>
+    <li>
+      <a href="salesT.php">
+        <i class="bi bi-circle"></i><span>Voir Ventes Par Période</span>
+      </a>
+    </li>
+  </ul>
+</li><!-- Utilisateur Nav -->
+
       <li class="nav-heading">Pages</li>
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="pos.php">
+          <i class="bi bi-cash-coin"></i>
+          <span>Caisse</span>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="pages-contact.html">
           <i class="bi bi-envelope"></i>
