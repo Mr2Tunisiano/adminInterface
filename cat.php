@@ -98,7 +98,7 @@ include_once('assets/php/db_connect.php')
                         <tr>
                           <th scope="row"><?php echo $res2['id_cat'] ?></th>
                           <td><?php echo $res2['nom_cat'] ?></td>
-                          <td><a href="" style="color: yellow; font-weight: bold;" class="mod" data-bs-toggle="modal" data-bs-target="#testmodal<?php echo $res2['id_cat'] ?>">Modifier</a></td>
+                          <td><a href="" style="color: green; font-weight: bold;" class="mod" data-bs-toggle="modal" data-bs-target="#testmodal<?php echo $res2['id_cat'] ?>"><i class="ri-edit-box-line"></i>Modifier</a></td>
                           <?php $_SESSION['id_cat'] = $res2['id_cat'] ?>
                           <div class="modal fade" id="testmodal<?php echo $res2['id_cat'] ?>" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
@@ -123,7 +123,7 @@ include_once('assets/php/db_connect.php')
                                     </div>
                                     <div class="col-md-12">
                                       <div class="form-floating">
-                                        <input type="text" class="form-control" id="floatingName" placeholder="Nouveau Nom" name="nName">
+                                        <input type="text" class="form-control" id="floatingName" placeholder="Nouveau Nom" name="nName" required>
                                         <label for="floatingName">Nouveau Nom</label>
                                       </div>
                                     </div>
@@ -138,7 +138,7 @@ include_once('assets/php/db_connect.php')
                             </div>
                           </div>
                           <?php unset($_SESSION['id_cat']); ?>
-                          <td><a href="assets/php/delcat.php?id=<?php echo $res2['id_cat']; ?>" style="color: red; font-weight: bold;" onclick="if(confirm('Vous êtes sûr vous voulez effacer cette catègorie ?')){return true} else {event.preventDefault()}">Supprimer</a></td>
+                          <td><a href="assets/php/delcat.php?id=<?php echo $res2['id_cat']; ?>" style="color: red; font-weight: bold;" onclick="if(confirm('Vous êtes sûr vous voulez effacer cette catègorie ?')){return true} else {event.preventDefault()}"><i class="bi bi-trash"></i>Supprimer</a></td>
                         </tr>
                       <?php } ?>
                     </tbody>

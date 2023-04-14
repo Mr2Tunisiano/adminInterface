@@ -83,7 +83,7 @@ include_once('assets/php/db_connect.php')
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
                   <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingName" name="name" placeholder="Nom de Catégorie">
+                    <input type="text" class="form-control" id="floatingName" name="name" placeholder="Nom de Catégorie" required>
                     <label for="floatingName">Nom de Catégorie</label>
                   </div>
                 </div>

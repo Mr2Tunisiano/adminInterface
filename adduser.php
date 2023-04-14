@@ -81,13 +81,13 @@ while ($row = mysqli_fetch_array($send2)) {
                     </div>
                     <div class="col-md-9">
                       <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingEmail" placeholder="Nom d'utilisateur" name="nom">
+                        <input type="text" class="form-control" id="floatingEmail" placeholder="Nom d'utilisateur" name="nom" required>
                         <label for="floatingEmail">Nom d'utilisateur</label>
                       </div>
                     </div>
                     <div class="col-md-6 pt-3">
                       <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingPassword" placeholder="Mot de passe" name="mdp">
+                        <input type="text" class="form-control" id="floatingPassword" placeholder="Mot de passe" name="mdp" required>
                         <label for="floatingPassword">Mot de passe</label>
                       </div>
                     </div>

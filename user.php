@@ -109,7 +109,7 @@ include_once('assets/php/db_connect.php')
                                 echo 'Staff';
                               }
                               ?></td>
-                          <td><a href="" style="color: yellow; font-weight: bold;" class="mod" data-bs-toggle="modal" data-bs-target="#testmodal<?php echo $res2['id_uti'] ?>"><i class="ri-edit-box-line"></i>Modifier</a></td>
+                          <td><a href="" style="color: green; font-weight: bold;" class="mod" data-bs-toggle="modal" data-bs-target="#testmodal<?php echo $res2['id_uti'] ?>"><i class="ri-edit-box-line"></i>Modifier</a></td>
                           <div class="modal fade" id="testmodal<?php echo $res2['id_uti'] ?>" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content">

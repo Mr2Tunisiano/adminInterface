@@ -135,7 +135,11 @@ $query07 = @mysqli_query($connect, $req07);
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo $res03['count'] ?></h6>
+                      <h6><?php if ($res03['count'] > 0) {
+                            echo $res03['count'];
+                          } else {
+                            echo "0";
+                          } ?></h6>
                     </div>
                   </div>
                 </div>
@@ -154,7 +158,12 @@ $query07 = @mysqli_query($connect, $req07);
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo $res02['total'] . " Dt" ?></h6>
+                      <h6><?php
+                          if ($res02['total'] > 0) {
+                            echo $res02['total'] . " Dt";
+                          } else {
+                            echo "0 Dt";
+                          } ?></h6>
                     </div>
                   </div>
                 </div>
@@ -174,7 +183,12 @@ $query07 = @mysqli_query($connect, $req07);
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6><?php echo $res01['count'] ?></h6>
+                      <h6><?php
+                          if ($res01['count'] > 0) {
+                            echo $res01['count'];
+                          } else {
+                            echo "0";
+                          } ?></h6>
                     </div>
                   </div>
                 </div>

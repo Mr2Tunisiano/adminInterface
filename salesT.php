@@ -102,7 +102,7 @@ function getMonthName($monthNum)
                         <tr>
                           <th scope="row"><?php echo $res01['year'] ?></th>
                           <td><?php echo getMonthName($res01['month']) ?></td>
-                          <td><?php echo $res01['revenue'] ?></td>
+                          <td><?php echo $res01['revenue'] . " Dt"?></td>
                         </tr>
                       <?php }
                       $JsonSale = json_encode($sales);
@@ -182,7 +182,7 @@ function getMonthName($monthNum)
                         <tr>
                           <th scope="row"><?php echo getMonthName($res02['month']) ?></th>
                           <td><?php echo $res02['day'] ?></td>
-                          <td><?php echo $res02['total_sales'] ?></td>
+                          <td><?php echo $res02['total_sales'] . " Dt" ?></td>
                         </tr>
                       <?php }
                       $sendDay = json_encode($day);

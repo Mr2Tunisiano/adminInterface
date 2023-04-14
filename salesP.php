@@ -116,7 +116,7 @@ $JsonNames = json_encode($labels);
                 <div class="col-lg-6">
                   <div class="card">
                     <div class="card-body">
-                      <h5 class="card-title">Donut Chart</h5>
+                      <h5 class="card-title">Quantité vendu par produit</h5>
                       <!-- Donut Chart -->
                       <div id="donutChart"></div>
                       <script>
