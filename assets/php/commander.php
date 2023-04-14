@@ -40,17 +40,4 @@ if (!is_numeric($res00['id_c'])) {
   $query03 = @mysqli_query($connect,$req03);
   $_SESSION['payS'] = $count;
 }
-
-
-// echo '<pre>';
-// print_r($prods);
-// echo $paid . "<br>";
-// echo $user . "<br>";
-// echo $count . "<br>";
-// echo $total . "<br>";
-// echo "<br>";
-// echo $prods[0]->id_p . "<br>";
-// echo $prods[0]->qte_p;
-// echo '</pre>'
-// prods=${SendObj}&paid=${paid}&user=${user}&count=${count}&total=${total}
 ?>

@@ -1,8 +1,9 @@
-<?php 
+<?php
 include_once('assets/php/db_connect.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -33,12 +34,12 @@ include_once('assets/php/db_connect.php')
 </head>
 
 <body>
-<?php
-include('assets/php/header.php');
-include('assets/php/side.php');
-?>
-<main id="main" class="main">
-<div class="pagetitle">
+  <?php
+  include('assets/php/header.php');
+  include('assets/php/side.php');
+  ?>
+  <main id="main" class="main">
+    <div class="pagetitle">
       <h1>Ajouter un nouveau produit</h1>
       <nav>
         <ol class="breadcrumb">
@@ -48,109 +49,111 @@ include('assets/php/side.php');
         </ol>
       </nav>
     </div><!-- End Page Title -->
-  <section class="section">
-    <div class="row">
-    <div class="col-lg-2"></div>
-      <div class="col-lg-8 pt-5">
-      <div class="card">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 pt-5">
+          <div class="card">
             <div class="card-body">
               <h5 class="card-title">Vos Produits</h5>
-      <!-- Size Alert -->
-      <?php 
-        if (isset($_SESSION['size'])) { ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <i class="bi bi-exclamation-octagon me-1"></i>
-          La taille de l'image est trop grande essayez une autre image !
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              <!-- Size Alert -->
+              <?php
+              if (isset($_SESSION['size'])) { ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <i class="bi bi-exclamation-octagon me-1"></i>
+                  La taille de l'image est trop grande essayez une autre image !
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php unset($_SESSION['size']);
+              } ?>
+              <!-- Image Extension Alert -->
+              <?php
+              if (isset($_SESSION['ext'])) { ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <i class="bi bi-exclamation-octagon me-1"></i>
+                  L'extension de fichier n'est pas valide essayez un autre format !
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php unset($_SESSION['ext']);
+              } ?>
+              <!-- Success Messages -->
+              <?php
+              if (isset($_SESSION['prodS'])) { ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <i class="bi bi-check-circle me-1"></i>
+                  La Produit <?php echo ($_SESSION['prodS']) ?> a été crée avec succès !
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php unset($_SESSION['prodS']);
+              } ?>
+              <!-- start form -->
+              <form class="row g-3" method="post" action="assets/php/addprod.php" enctype="multipart/form-data">
+                <div class="col-md-2">
+                  <div class="form-floating">
+                    <?php
+                    $req2 = 'Select * from produit';
+                    $send2 = @mysqli_query($connect, $req2);
+                    while ($row = mysqli_fetch_assoc($send2)) {
+                      $count = $row['id_p'];
+                    };
+                    ?>
+                    <input type="text" class="form-control" id="floatingName" readonly placeholder="Id de produit" value="<?php echo $count + 1 ?>" name="id">
+                    <label for="floatingName">Id de produit</label>
+                  </div>
+                </div>
+                <div class="col-md-10">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingName" placeholder="Nom de produit" required name="nom">
+                    <label for="floatingName">Nom de produit</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating mb-3">
+                    <select class="form-select" id="floatingSelect" aria-label="Catégorie" required name="cat">
+                      <?php
+                      $req5 = 'select * from categorie';
+                      $send5 = @mysqli_query($connect, $req5);
+                      while ($res5 = @mysqli_fetch_array($send5)) { ?>
+                        <option value="<?php echo $res5['nom_cat'] ?>"><?php echo $res5['nom_cat'] ?></option>
+                      <?php } ?>
+                    </select>
+                    <label for="floatingSelect">Catégorie</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating">
+                    <input type="number" step="0.01" class="form-control" id="floatingZip" placeholder="Prix" required name="prix">
+                    <label for="floatingZip">Prix</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating">
+                    <input class="form-control" class="form-control" type="file" id="formFile" placeholder="Image" name="img">
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Description" id="floatingTextarea" style="height: 200px;" name="desc"></textarea>
+                    <label for="floatingTextarea">Description</label>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary" name="sub">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+              </form>
+              <!-- end form -->
+            </div>
+          </div>
         </div>
-        <?php unset($_SESSION['size']); } ?>
-        <!-- Image Extension Alert -->
-        <?php 
-        if (isset($_SESSION['ext'])) { ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <i class="bi bi-exclamation-octagon me-1"></i>
-          L'extension de fichier n'est pas valide essayez un autre format !
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['ext']); } ?>
-        <!-- Success Messages -->
-      <?php 
-        if (isset($_SESSION['prodS'])) { ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <i class="bi bi-check-circle me-1"></i>
-          La Produit <?php echo ($_SESSION['prodS']) ?> a été crée avec succès !
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['prodS']); } ?>
-        <!-- start form -->
-        <form class="row g-3" method="post" action="assets/php/addprod.php" enctype="multipart/form-data">
-          <div class="col-md-2">
-            <div class="form-floating">
-              <?php 
-              $req2 = 'Select * from produit';
-              $send2 = @mysqli_query($connect,$req2);
-              while ($row = mysqli_fetch_assoc($send2)) {
-                $count = $row['id_p'];
-              }
-              ;
-              ?>
-              <input type="text" class="form-control" id="floatingName" readonly placeholder="Id de produit" value="<?php echo $count+1 ?>" name="id">
-              <label for="floatingName">Id de produit</label>
-            </div>
-          </div>
-          <div class="col-md-10">
-            <div class="form-floating">
-              <input type="text" class="form-control" id="floatingName" placeholder="Nom de produit" required name="nom">
-              <label for="floatingName">Nom de produit</label>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-floating mb-3">
-              <select class="form-select" id="floatingSelect" aria-label="Catégorie" required name="cat">
-                <?php 
-                $req5 = 'select * from categorie';
-                $send5 = @mysqli_query($connect, $req5);
-                while ($res5 = @mysqli_fetch_array($send5)) { ?>
-                <option value="<?php echo $res5['nom_cat'] ?>"><?php echo $res5['nom_cat'] ?></option>
-                <?php } ?>
-              </select>
-              <label for="floatingSelect">Catégorie</label>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-floating">
-              <input type="number" step="0.01" class="form-control" id="floatingZip" placeholder="Prix" required name="prix">
-              <label for="floatingZip">Prix</label>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-floating">
-              <input class="form-control" class="form-control" type="file" id="formFile" placeholder="Image" name="img">
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="form-floating">
-              <textarea class="form-control" placeholder="Description" id="floatingTextarea" style="height: 200px;" name="desc"></textarea>
-              <label for="floatingTextarea">Description</label>
-            </div>
-          </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary" name="sub">Submit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-          </div>
-        </form>
-        <!-- end form -->
       </div>
-      </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-</main>
+  </main>
 
-<?php 
-include('assets/php/footer.php');
-?>
+  <?php
+  include('assets/php/footer.php');
+  ?>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->

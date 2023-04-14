@@ -12,6 +12,4 @@ if (isset($_POST['search']) and isset($_POST['crit'])) {
         $_SESSION['notfound'] = $crit;
         header('location: ../../prod.php');
     }
-}; ?>
-
-
+};

@@ -1,8 +1,9 @@
-<?php 
+<?php
 include_once('assets/php/db_connect.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -33,17 +34,17 @@ include_once('assets/php/db_connect.php')
 </head>
 
 <body>
-<?php
-include('assets/php/header.php');
-include('assets/php/side.php');
-$req2 = 'Select * from categorie';
-$send2 = @mysqli_query($connect,$req2);
-while ($row = mysqli_fetch_array($send2)) {
+  <?php
+  include('assets/php/header.php');
+  include('assets/php/side.php');
+  $req2 = 'Select * from categorie';
+  $send2 = @mysqli_query($connect, $req2);
+  while ($row = mysqli_fetch_array($send2)) {
     $count = $row['id_cat'];
-}
-?>
-<main id="main" class="main">
-<div class="pagetitle">
+  }
+  ?>
+  <main id="main" class="main">
+    <div class="pagetitle">
       <h1>Ajouter une nouvelle catégorie</h1>
       <nav>
         <ol class="breadcrumb">
@@ -53,27 +54,28 @@ while ($row = mysqli_fetch_array($send2)) {
         </ol>
       </nav>
     </div><!-- End Page Title -->
-  <section class="section">
-    <div class="row">
-    <div class="col-lg-2"></div>
-      <div class="col-lg-8 pt-5">
-      <div class="card">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 pt-5">
+          <div class="card">
             <div class="card-body">
               <h5 class="card-title">Ajouter une catégorie</h5>
-        <?php 
-        if (isset($_SESSION['name'])) { ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <i class="bi bi-check-circle me-1"></i>
-          La Catégorie <?php echo ($_SESSION['name']) ?> a été crée avec succès !
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php unset($_SESSION['name']); } ?>
-                      <!-- Floating Labels Form -->
-                      <form class="row g-3" method="post" action="assets/php/addcat.php">
-                        <div class="col-md-4"></div>
+              <?php
+              if (isset($_SESSION['name'])) { ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  <i class="bi bi-check-circle me-1"></i>
+                  La Catégorie <?php echo ($_SESSION['name']) ?> a été crée avec succès !
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php unset($_SESSION['name']);
+              } ?>
+              <!-- Floating Labels Form -->
+              <form class="row g-3" method="post" action="assets/php/addcat.php">
+                <div class="col-md-4"></div>
                 <div class="col-md-4">
                   <div class="form-floating">
-                    <input type="text" class="form-control" id="floatingName" name="id" readonly value="<?php echo $count+1; ?>" placeholder="Id de Catégorie">
+                    <input type="text" class="form-control" id="floatingName" name="id" readonly value="<?php echo $count + 1; ?>" placeholder="Id de Catégorie">
                     <label for="floatingName">Id de Catégorie</label>
                   </div>
                 </div>
@@ -86,23 +88,26 @@ while ($row = mysqli_fetch_array($send2)) {
                   </div>
                 </div>
                 <div class="col-md-4"></div>
-                <div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"></div><div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
                 <div class="text-center">
                   <button type="submit" name="sub" class="btn btn-primary">Submit</button>
                   <button type="reset" class="btn btn-secondary">Reset</button>
                 </div>
               </form><!-- End floating Labels Form -->
+            </div>
+          </div>
+        </div>
       </div>
-      </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-</main>
+  </main>
 
-<?php 
-include('assets/php/footer.php');
-?>
+  <?php
+  include('assets/php/footer.php');
+  ?>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->

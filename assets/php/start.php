@@ -1,13 +1,14 @@
-<?php 
+<?php
 include_once('assets/php/db_connect.php')
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - Admin</title>
+  <title>Ventes - LoungeWhiz</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -33,38 +34,38 @@ include_once('assets/php/db_connect.php')
 </head>
 
 <body>
-<?php
-include('assets/php/header.php');
-include('assets/php/side.php');
-?>
-<main id="main" class="main">
-<div class="pagetitle">
-      <h1>Blank Page</h1>
+  <?php
+  include('assets/php/header.php');
+  include('assets/php/side.php');
+  ?>
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Ventes Par Produit</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="admin_index.php">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Blank</li>
+          <li class="breadcrumb-item">Ventes</li>
+          <li class="breadcrumb-item active">Ventes Par Produit</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
-  <section class="section">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
             <div class="card-body">
               <h5 class="card-title">Vos Produits</h5>
             </div>
+          </div>
         </div>
       </div>
-      </div>
-  </section>
+    </section>
 
-</main>
+  </main>
 
-<?php 
-include('assets/php/footer.php');
-?>
+  <?php
+  include('assets/php/footer.php');
+  ?>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->

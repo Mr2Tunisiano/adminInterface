@@ -58,15 +58,15 @@
 
                   <form class="row g-3 needs-validation" method="post" action="">
                     <!-- wrong info -->
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" id="wrong" style="display:none">
-                  Veuillez vérifier votre information !
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <!-- right info -->
-                <div class="alert alert-success alert-dismissible fade show" role="alert" id="right" style="display:none">
-                  Connectée avec succée ! bienvenue à nouveau 
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="wrong" style="display:none">
+                      Veuillez vérifier votre information !
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <!-- right info -->
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" id="right" style="display:none">
+                      Connectée avec succée ! bienvenue à nouveau
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Nom d'utilisateur</label>
                       <div class="input-group has-validation">

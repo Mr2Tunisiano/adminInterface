@@ -16,4 +16,3 @@ if(isset($_POST['sub'])) {
     $_SESSION['ChangeS'] = $name;
     header('location: ../../user.php');
 }
-?>
