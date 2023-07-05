@@ -63,12 +63,12 @@ function getMonthName($monthNum)
   ?>
   <main id="main" class="main">
     <div class="pagetitle">
-      <h1>Ventes Par Produit</h1>
+      <h1>Ventes Par Période</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="admin_index.php">Home</a></li>
           <li class="breadcrumb-item">Ventes</li>
-          <li class="breadcrumb-item active">Ventes Par Produit</li>
+          <li class="breadcrumb-item active">Ventes Par Période</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -102,7 +102,7 @@ function getMonthName($monthNum)
                         <tr>
                           <th scope="row"><?php echo $res01['year'] ?></th>
                           <td><?php echo getMonthName($res01['month']) ?></td>
-                          <td><?php echo $res01['revenue'] . " Dt"?></td>
+                          <td><?php echo $res01['revenue'] . " Dt" ?></td>
                         </tr>
                       <?php }
                       $JsonSale = json_encode($sales);

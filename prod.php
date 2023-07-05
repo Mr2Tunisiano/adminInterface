@@ -76,7 +76,6 @@ include('assets/php/search.php');
                         <button class="btn btn-outline-primary" type="submit" name="search">Rechercher</button>
                       </div>
                     </div>
-
                   </form>
                 </div>
                 <div class="col-lg-12 pt-5">
@@ -87,7 +86,8 @@ include('assets/php/search.php');
                       La Produit <?php echo ($_SESSION['ProdChange']) ?> a été modifié avec succès !
                       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                  <?php unset($_SESSION['ProdChange']); } ?>
+                  <?php unset($_SESSION['ProdChange']);
+                  } ?>
                   <!-- Delete Sucess Messages -->
                   <?php
                   if (isset($_SESSION['delS'])) { ?>

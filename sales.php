@@ -58,7 +58,27 @@ $query01 = @mysqli_query($connect, $req01);
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Ventes</h5>
-              <table class="table table-striped">
+              <?php
+              if (isset($_SESSION['deleted'])) { ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <i class="bi bi-check-circle me-1"></i>
+                  La Commande Numéro <?php echo ($_SESSION['deleted']) ?> a été annulé avec succès !
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              <?php }
+              unset($_SESSION['deleted'])
+              ?>
+              <form class="form-control" style="border: none;" method="post" action="assets/php/search3.php">
+                <div class="row">
+                  <div class="col-lg-4" style="margin: 0; padding: 0;">
+                    <input class="form-control" type="date" name="crit" required>
+                  </div>
+                  <div class="col-lg-3" style="margin: 0; padding: 0;">
+                    <button class="btn btn-outline-primary" type="submit" name="search">Chercher Par Date</button>
+                  </div>
+                </div>
+              </form>
+              <table class="table table-striped mt-5">
                 <thead>
                   <tr>
                     <th scope="col">Id</th>
@@ -67,23 +87,56 @@ $query01 = @mysqli_query($connect, $req01);
                     <th scope="col">Payé</th>
                     <th scope="col">Date</th>
                     <th scope="col">action</th>
+                    <th scope="col">action</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <?php
-                  while ($res01 = @mysqli_fetch_array($query01)) { ?>
-                    <tr>
-                      <th scope="row"><?php echo $res01['id_c'] ?></th>
-                      <td><?php echo $res01['serveur'] ?></td>
-                      <td><?php echo $res01['total'] . "Dt" ?></td>
-                      <td><?php echo $res01['isPaid'] ?></td>
-                      <td><?php echo $res01['date_c'] ?></td>
-                      <td><button class="btn btn-primary sm" data-bs-toggle="modal" data-bs-target="#commande<?php echo $res01['id_c'] ?>">Voir détail</button></td>
-                    </tr>
-                  <?php
-                  }
-                  ?>
-                </tbody>
+                <?php
+                if (isset($_SESSION['found'])) {
+                  if ($_SESSION['found']) { 
+                    $date = $_SESSION['found'];
+                    $req07 = "SELECT * FROM commandes WHERE DATE(date_c) = DATE('$date')";
+                    $send07 = @mysqli_query($connect,$req07);
+                    ?>
+                    <tbody>
+                      <?php
+                      while ($res07 = @mysqli_fetch_array($send07)) { ?>
+                        <tr>
+                          <th scope="row"><?php echo $res07['id_c'] ?></th>
+                          <td><?php echo $res07['serveur'] ?></td>
+                          <td><?php echo $res07['total'] . "Dt" ?></td>
+                          <td><?php echo $res07['isPaid'] ?></td>
+                          <td><?php echo $res07['date_c'] ?></td>
+                          <td><button class="btn btn-primary sm" data-bs-toggle="modal" data-bs-target="#commande<?php echo $res01['id_c'] ?>">Voir détail</button></td>
+                          <td><a href='./assets/php/annuler.php?id_c=<?php echo $res07['id_c'] ?>' onclick="if(confirm('Vous êtes sûr vous voulez annuler cette commande ?')){return true} else {event.preventDefault()}" class=" btn btn-danger sm">Annuler</a></td>
+                        </tr>
+                      <?php } ?>
+                    </tbody>
+                  <?php unset($_SESSION['found']); } else { ?>
+                    <tbody>
+                      <tr>
+                        <th scope="row" class="table-danger" colspan="7">Aucune Commande enregistrée à cette date</th>
+                      </tr>
+                    </tbody>
+                  <?php unset($_SESSION['found']); }
+                } else { ?>
+                  <tbody>
+                    <?php
+                    while ($res01 = @mysqli_fetch_array($query01)) { ?>
+                      <tr>
+                        <th scope="row"><?php echo $res01['id_c'] ?></th>
+                        <td><?php echo $res01['serveur'] ?></td>
+                        <td><?php echo $res01['total'] . "Dt" ?></td>
+                        <td><?php echo $res01['isPaid'] ?></td>
+                        <td><?php echo $res01['date_c'] ?></td>
+                        <td><button class="btn btn-primary sm" data-bs-toggle="modal" data-bs-target="#commande<?php echo $res01['id_c'] ?>">Voir détail</button></td>
+                        <td><a href='./assets/php/annuler.php?id_c=<?php echo $res01['id_c'] ?>' onclick="if(confirm('Vous êtes sûr vous voulez annuler cette commande ?')){return true} else {event.preventDefault()}" class=" btn btn-danger sm">Annuler</a></td>
+                      </tr>
+                    <?php
+                    }
+                    ?>
+                  </tbody>
+                <?php }
+                ?>
               </table>
             </div>
           </div>

@@ -80,7 +80,17 @@ $JsonNames = json_encode($labels);
             <div class="container">
               <div class="row">
                 <div class="col-lg-6">
-                  <table class="table table-hover">
+                  <form class="form-control" style="border: none;" method="post" action="assets/php/search1.php">
+                    <div class="row">
+                      <div class="col-lg-6" style="margin: 0; padding: 0;">
+                        <input class="form-control" type="text" placeholder="Cherche par Nom" aria-label="Search" name="crit" required>
+                      </div>
+                      <div class="col-lg-2" style="margin: 0; padding: 0;">
+                        <button class="btn btn-outline-primary" type="submit" name="search">Rechercher</button>
+                      </div>
+                    </div>
+                  </form>
+                  <table class="table table-hover mt-5">
                     <thead>
                       <tr>
                         <th scope="col">Id Prod</th>
@@ -89,27 +99,54 @@ $JsonNames = json_encode($labels);
                         <th scope="col">Total Revenue</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <?php
+                    if (isset($_SESSION['found'])) {
+                      if ($_SESSION['found'] === true) { ?>
+                        <tbody>
+                          <tr>
+                            <th class="table-primary"><?php echo $_SESSION['product']['id_p'] ?></th>
+                            <td class="table-primary"><?php echo $_SESSION['product']['nom_p'] ?></td>
+                            <td class="table-primary"><?php echo $_SESSION['qte'] ?></td>
+                            <td class="table-primary"><?php echo $_SESSION['qte'] * $_SESSION['product']['prix'] ?> Dt</td>
+                          </tr>
+                        </tbody>
                       <?php
-                      $req03 = "SELECT id_p, SUM(qte) as total_qte FROM `produit_commande` GROUP BY id_p ORDER BY total_qte DESC";
-                      $query03 = @mysqli_query($connect, $req03);
-                      while ($res03 = @mysqli_fetch_assoc($query03)) {
-                        $IdProd = $res03['id_p']; ?>
-                        <tr>
-                          <?php
-                          $req04 = "SELECT * FROM `produit` WHERE `id_p` = '$IdProd'";
-                          $query04 = @mysqli_query($connect, $req04);
-                          while ($res04 = @mysqli_fetch_assoc($query04)) { ?>
-                            <th scope="row"><?php echo $res04['id_p'] ?></th>
-                            <td><?php echo $res04['nom_p'] ?></td>
-                            <td><?php echo $res03['total_qte'] ?></td>
-                            <td><?php echo $res03['total_qte'] * $res04['prix'] . " Dt"?></td>
-                          <?php }
-                          ?>
-                        </tr>
-                      <?php }
-                      ?>
-                    </tbody>
+                        unset($_SESSION['found']);
+                        unset($_SESSION["product"]);
+                        unset($_SESSION['qte']);
+                      } else { ?>
+                        <tbody>
+                          <tr>
+                            <td class="table-danger" colspan="4">Merci de vérifier le nom de produit</td>
+                          </tr>
+                        </tbody>
+                      <?php
+                        unset($_SESSION['found']);
+                      }
+                    } else { ?>
+                      <tbody>
+                        <?php
+                        $req03 = "SELECT id_p, SUM(qte) as total_qte FROM `produit_commande` GROUP BY id_p ORDER BY total_qte DESC";
+                        $query03 = @mysqli_query($connect, $req03);
+                        while ($res03 = @mysqli_fetch_assoc($query03)) {
+                          $IdProd = $res03['id_p']; ?>
+                          <tr>
+                            <?php
+                            $req04 = "SELECT * FROM `produit` WHERE `id_p` = '$IdProd'";
+                            $query04 = @mysqli_query($connect, $req04);
+                            while ($res04 = @mysqli_fetch_assoc($query04)) { ?>
+                              <th scope="row"><?php echo $res04['id_p'] ?></th>
+                              <td><?php echo $res04['nom_p'] ?></td>
+                              <td><?php echo $res03['total_qte'] ?></td>
+                              <td><?php echo $res03['total_qte'] * $res04['prix'] . " Dt" ?></td>
+                            <?php }
+                            ?>
+                          </tr>
+                        <?php }
+                        ?>
+                      </tbody>
+                    <?php }
+                    ?>
                   </table>
                 </div>
                 <!-- Graph Part -->
